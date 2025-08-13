@@ -1046,6 +1046,25 @@ def create_data_summary(csv_data: list,
     summary["total_sources"] = len(identifiers)
     return summary
 
+@app.get("/")
+async def root():
+    """Health check endpoint for Railway deployment"""
+    return {
+        "status": "healthy",
+        "message": "FastAPI Data Analyst Application is running",
+        "version": "1.0.0",
+        "endpoints": {
+            "main": "/aianalyst/",
+            "docs": "/docs",
+            "health": "/"
+        }
+    }
+
+@app.get("/health")
+async def health_check():
+    """Alternative health check endpoint"""
+    return {"status": "ok", "timestamp": "2024-01-01T00:00:00Z"}
+
 @app.post("/aianalyst/")
 async def aianalyst(request: Request):
     # Parse form data to get all files regardless of field names
